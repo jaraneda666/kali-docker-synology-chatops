@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "mcp-kali-server": {
+      "command": "python",
+      "args": [
+        "c:/Users/Developer/Documents/Antigravity projects/Kali_Docker_Synology/tools/mcp_kali_server_bridge.py",
+        "--server",
+        "http://192.168.1.150:5000"
+      ]
+    },
+    "hexstrike-ai": {
+      "command": "python",
+      "args": [
+        "c:/Users/Developer/Documents/Antigravity projects/Kali_Docker_Synology/tools/hexstrike_mcp_bridge.py",
+        "--server",
+        "http://192.168.1.150:8888"
+      ]
+    },
+    "caido": {
+      "command": "python",
+      "args": [
+        "c:/Users/Developer/Documents/Antigravity projects/Kali_Docker_Synology/tools/caido_mcp_bridge.py",
+        "--url",
+        "http://192.168.1.150:8080"
+      ]
+    }
+  }
+}

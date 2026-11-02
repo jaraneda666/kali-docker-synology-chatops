@@ -1,0 +1,71 @@
+CONTEXTO GENERAL
+
+
+La evaluación de seguridad ofensiva y ethical hacking tiene como objetivo evaluar la seguridad de aplicaciones, sistemas y redes informáticas para garantizar la confidencialidad, integridad y disponibilidad de la información y la tecnología de las organizaciones.
+
+
+
+
+CONTEXTO SERVICIOS
+
+
+Las evaluaciones de seguridad comprenden una amplia gama de soluciones, incluyendo:
+
+
+* Evaluación de riesgos y vulnerabilidades: Identificar y analizar posibles debilidades en los sistemas y la infraestructura de TI.
+* Pruebas de penetración (Ethical Hacking): Simular ciberataques en sistemas informáticos, redes, aplicaciones o cualquier otro entorno digital con el objetivo de identificar y descubrir vulnerabilidades de seguridad.
+
+
+
+
+CONTEXTO ETHICAL HACKING
+
+
+El Ethical Hacking, también conocido como hacking ético o pruebas de penetración ("penetration testing"), es una disciplina de la ciberseguridad que consiste en realizar pruebas de seguridad autorizadas sobre sistemas informáticos, redes o aplicaciones web con el objetivo de identificar y corregir vulnerabilidades antes de que puedan ser explotadas por atacantes maliciosos.
+
+
+En esencia, un hacker ético utiliza las mismas herramientas, técnicas y metodologías que un ciberdelincuente, pero con el permiso explícito de la organización propietaria de los sistemas y con la finalidad de mejorar la seguridad, no de causar daño o robar información.
+
+
+Los objetivos principales del ethical hacking son:
+
+
+* Identificar vulnerabilidades: Descubrir debilidades en la configuración de los sistemas, fallos de software, errores de programación, o deficiencias en las políticas y procedimientos de seguridad.
+* Evaluar la postura de seguridad: Medir la efectividad de los controles de seguridad existentes y la capacidad de la organización para detectar y responder a un ataque.
+* Probar las defensas: Simular ataques realistas para ver cómo se comportan los sistemas de seguridad y el personal ante una intrusión.
+* Proporcionar recomendaciones: Ofrecer un informe detallado de las vulnerabilidades encontradas, su posible impacto y las medidas correctivas necesarias para mitigarlas.
+* Cumplir con normativas: Ayudar a las organizaciones a cumplir con regulaciones y estándares de seguridad que exigen pruebas periódicas.
+* Prevenir pérdidas financieras y de reputación: Al anticiparse a los ataques, se evitan los costes asociados a incidentes de seguridad, como la pérdida de datos, la interrupción del negocio o el daño a la imagen de la empresa.
+* Analizar la lógica de negocio: Explorar los flujos posibles dentro de la aplicación o sistema para identificar funcionalidades que no representen un fallo de seguridad pero que sí permitan efectuar acciones contrarias a las reglas de negocio, como por ejemplo, pagos con saldo negativo.
+
+
+A su vez, el enfoque de las pruebas se clasifica en tres categorías dependiendo del nivel de conocimiento e información que posea el hacker ético sobre el sistema objetivo antes y durante el análisis:
+
+
+Black Box (Caja Negra):
+* Definición: En una prueba de caja negra, el hacker ético no tiene ningún conocimiento previo de la infraestructura interna, el código fuente, la arquitectura de red o las credenciales del sistema objetivo. Abordan el sistema como lo haría un atacante externo real, con información mínima o públicamente disponible.
+* Objetivo: Simular un ataque desde la perspectiva de un actor malicioso externo que no tiene información privilegiada. Se enfoca en encontrar vulnerabilidades explotables desde el exterior.
+* Información disponible para el auditor: Ninguna o muy limitada (por ejemplo, solo la URL de una aplicación web o la dirección IP de un servidor).
+
+
+White Box (Caja Blanca):
+* Definición: En una prueba de caja blanca, el hacker ético tiene acceso completo y conocimiento total de la infraestructura, el código fuente, los diagramas de arquitectura, las configuraciones de red, las credenciales y cualquier otra documentación relevante del sistema objetivo. También se conoce como prueba de caja de cristal o prueba estructural.
+* Objetivo: Realizar una evaluación exhaustiva y profunda de la seguridad, identificando vulnerabilidades tanto internas como externas, incluyendo fallos de lógica en el código, configuraciones incorrectas y debilidades en la arquitectura.
+* Información disponible para el auditor: Completa (código fuente, diagramas, credenciales de administrador, documentación de diseño, etc.).
+
+
+Grey Box (Caja Gris):
+* Definición: Una prueba de caja gris es un híbrido entre las pruebas de caja negra y caja blanca. El hacker ético tiene un conocimiento limitado del sistema objetivo. Esto podría incluir, por ejemplo, credenciales de usuario de bajo nivel, conocimiento parcial de la arquitectura de red o acceso a cierta documentación, pero no el código fuente completo o privilegios de administrador.
+* Objetivo: Simular un ataque desde la perspectiva de un usuario interno con ciertos privilegios o de un atacante que ha logrado obtener acceso limitado al sistema. Evalúa la seguridad desde una posición de "conocimiento parcial".
+* Información disponible para el auditor: Parcial (por ejemplo, credenciales de usuario estándar, algunos diagramas de red, conocimiento de las tecnologías utilizadas, pero no el código fuente completo).
+
+
+CONTEXTO METODOLOGÍA
+
+
+La metodología utilizada por la empresa se fundamenta en una estructura probada, integrando estándares líderes de la industria para asegurar una evaluación exhaustiva y precisa. El compromiso es ofrecer no solo una identificación de vulnerabilidades, sino una comprensión profunda de los riesgos de seguridad del cliente y una hoja de ruta clara para fortalecer sus defensas a través de una comunicación efectiva de los resultados. Para ello se considera la integración de los siguientes estándares:
+
+
+* OWASP Testing Guide v4 (WSTG): Actúa como la guía principal para pruebas de seguridad en aplicaciones web, asegurando una cobertura completa de las categorías de vulnerabilidades más comunes y críticas. Se aplica desde la recolección de información (WSTG-INFO-*) hasta las pruebas de lógica de negocio (WSTG-BUSL-*) y autenticación (WSTG-ATHN-*), entre otras.
+* CWE (Common Weakness Enumeration): Cada vulnerabilidad identificada se mapea a su correspondiente CWE. Esto permite estandarizar la descripción de la debilidad, facilitando la comprensión y la comparación entre diferentes evaluaciones. Por ejemplo, un Cross-Site Scripting se referencia como CWE-79.
+* CVSS 4.0 (Common Vulnerability Scoring System): Se utiliza CVSS 4.0 para proporcionar una puntuación objetiva y detallada de la severidad de cada vulnerabilidad. Este sistema permite evaluar no solo el impacto base, sino también factores contextuales (amenazas actuales, impacto en el entorno específico del cliente) y métricas suplementarias como la automatización, la seguridad y el esfuerzo de respuesta, ofreciendo una visión más rica del riesgo.

@@ -1,0 +1,184 @@
+{
+  "name": "Kali Linux - Synology ChatOps Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message",
+          "callback_query"
+        ]
+      },
+      "id": "node-tg-trigger",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst allowedId = $env.TELEGRAM_ALLOWED_USER_ID || 'TU_CHAT_ID';\n\nlet userId = null;\nlet chatId = null;\nlet text = '';\nlet isCallback = false;\nlet callbackData = '';\nlet callbackQueryId = null;\n\nif (item.callback_query) {\n  isCallback = true;\n  userId = item.callback_query.from.id;\n  chatId = item.callback_query.message.chat.id;\n  callbackData = item.callback_query.data;\n  callbackQueryId = item.callback_query.id;\n} else if (item.message) {\n  userId = item.message.from.id;\n  chatId = item.message.chat.id;\n  text = item.message.text || '';\n}\n\nconst isAuthorized = String(userId) === String(allowedId);\n\nreturn [{\n  json: {\n    isAuthorized,\n    userId,\n    chatId,\n    text,\n    isCallback,\n    callbackData,\n    callbackQueryId\n  }\n}];"
+      },
+      "id": "node-auth-filter",
+      "name": "Whitelist Auth Filter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        420,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.isAuthorized }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "node-if-authorized",
+      "name": "Is Authorized?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        640,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "⛔ Acceso denegado. ID de Telegram no autorizado por política de seguridad.",
+        "additionalFields": {}
+      },
+      "id": "node-unauthorized-msg",
+      "name": "Send Unauthorized Msg",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        860,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nlet cmd = '';\nlet action = 'menu';\n\nif (item.isCallback) {\n  action = item.callbackData;\n  if (action === 'btn_status') {\n    cmd = '/var/packages/ContainerManager/target/usr/bin/docker ps -a --filter name=kali_linux --format \"Estado: {{.Status}}\"';\n  } else if (action === 'btn_ip') {\n    cmd = '/var/packages/ContainerManager/target/usr/bin/docker exec kali_linux ip -brief addr show';\n  } else if (action === 'btn_scan_arp') {\n    cmd = '/var/packages/ContainerManager/target/usr/bin/docker exec kali_linux arp-scan --localnet';\n  }\n} else if (item.text.startsWith('/exec ')) {\n  action = 'exec';\n  const cleanCmd = item.text.replace('/exec ', '').trim();\n  cmd = `/var/packages/ContainerManager/target/usr/bin/docker exec kali_linux ${cleanCmd}`;\n} else if (item.text.startsWith('/status')) {\n  action = 'status';\n  cmd = '/var/packages/ContainerManager/target/usr/bin/docker ps -a --filter name=kali_linux --format \"Estado: {{.Status}}\"';\n}\n\nreturn [{\n  json: {\n    ...item,\n    action,\n    cmd\n  }\n}];"
+      },
+      "id": "node-dispatch-command",
+      "name": "Dispatch Command",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        860,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "=🛡️ *Panel ChatOps — Kali Linux Synology*\n\nComando ejecutado: `{{ $json.action }}`\n\nSelecciona una operación:",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "📊 Estado Contenedor",
+                    "additionalFields": {
+                      "callback_data": "btn_status"
+                    }
+                  },
+                  {
+                    "text": "🌐 Ver IPs y Red",
+                    "additionalFields": {
+                      "callback_data": "btn_ip"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🔍 Escaneo ARP LAN",
+                    "additionalFields": {
+                      "callback_data": "btn_scan_arp"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "id": "node-send-menu",
+      "name": "Send Interactive Menu",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        1100,
+        220
+      ]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Whitelist Auth Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Whitelist Auth Filter": {
+      "main": [
+        [
+          {
+            "node": "Is Authorized?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Authorized?": {
+      "main": [
+        [
+          {
+            "node": "Dispatch Command",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Unauthorized Msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dispatch Command": {
+      "main": [
+        [
+          {
+            "node": "Send Interactive Menu",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

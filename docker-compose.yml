@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  kali_linux:
+    image: kali-synology:latest
+    container_name: kali_linux
+    hostname: kali-synology
+    shm_size: "1gb"
+    security_opt:
+      - seccomp:unconfined
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    environment:
+      - VNC_PW=${KALI_PASS:-KaliPass2026!}
+      - KASM_PORT=6901
+    volumes:
+      - /volume1/docker/kali/data:/home/kasm_user/data
+      - /volume1/docker/kali/custom_startup.sh:/dockerstartup/custom_startup.sh:ro
+    networks:
+      macvlan_lan:
+        ipv4_address: 192.168.1.150
+      syno_internal:
+        ipv4_address: 172.26.0.80
+    restart: unless-stopped
+
+  kali_ttyd:
+    image: tsl0922/ttyd:latest
+    container_name: kali_ttyd
+    command: ttyd -p 7681 -c ${TTYD_USER:-kali}:${TTYD_PASS:-KaliPass2026!} bash
+    volumes:
+      - /volume1/docker/kali/data:/data
+    networks:
+      macvlan_lan:
+        ipv4_address: 192.168.1.151
+      syno_internal:
+        ipv4_address: 172.26.0.81
+    restart: unless-stopped
+
+networks:
+  macvlan_lan:
+    external: true
+
+  syno_internal:
+    name: kali_syno_internal
+    external: true

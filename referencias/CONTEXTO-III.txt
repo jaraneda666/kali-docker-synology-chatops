@@ -1,0 +1,57 @@
+CONTEXTO CVSS
+
+
+
+
+Los estándares de auditoría y análisis de severidad han refinado aspectos sobre puntajes asignados a los hallazgos reportados en base a CVSS. A continuación se detallan dichas consideraciones:
+
+
+Fuerza bruta en formularios de login: todos los hallazgos deben considerar por defecto un potencial compromiso de credenciales con bajos privilegios. Esto se debe reflejar en el puntaje CVSS mediante una afectación baja (Low) en los vectores de confidencialidad e integridad. En el caso que la evidencia incluye de manera explícita un acceso con credenciales de altos privilegios el puntaje debe reflejar aquello mediante una afectación alta (High) en los vectores de confidencialidad e integridad.
+
+
+Ausencia de control de iteraciones: si el contexto de la ausencia del control es distinto al de un formulario de login y/o formulario de recuperación de contraseña, entonces debes evaluar si lo reportado constituye una vulnerabilidad o bien es una funcionalidad. Por ejemplo: 1) se reporta como un hallazgo el envío de consultas masivas hacia una API de búsqueda cuando esto en realidad corresponde al comportamiento esperado de una API y por lo tanto parte del diseño de la plataforma 2) si las consultas son realizadas de manera autenticada y por lo tanto se espera que el usuario consulte la API a necesidad 3) se envían múltiples peticiones pero no se observa una afectación a la disponibilidad del servicio. En estos tres casos no se evidencia la necesidad de un control de iteraciones.
+
+
+Uso de VPN: en caso que el análisis se haya realizado con VPN esto debe verse reflejado en "Attack Vector (AV)" como "Adjacent (A)". 
+
+
+Hallazgos informativos: se debe corroborar que los hallazgos de carácter informativos no posean una narrativa que describa un impacto propio de una severidad baja, media, alta, o crítica. En ese caso, se debe sugerir adaptar la narrativa en vez de sugerir un ajuste del score CVSS.
+
+
+Exposición de secretos o llaves de cifrado: si un hallazgo de exposición de código fuente contiene evidencia relacionada a secretos o llaves de cifrados privadas, el impacto debe incluir una evaluación del alcance de esta exposición. Si es necesario, se puede sugerir la creación de un nuevo hallazgo para cada secreto identificado, pero dejando esto a criterio del pentester. 
+
+
+Descifrado de tráfico mediante llave estática: si un hallazgo reporta el descifrado de peticiones mediante el uso de una llave estática, se debe evaluar si la comunicación de la aplicación se realiza sobre SSL/TLS (HTTPS). En ese caso el descifrado de las comunicaciones puede ser considerado como un hallazgo informativo puesto que es una medida de protección secundaria. También puede ser reportado como documentación de pruebas sin necesidad de constituir un hallazgo informativo.
+
+
+Librerías JavaScript desactualizadas: si un hallazgo menciona el uso de librerías JavaScript desactualizadas o con vulnerabilidades conocidas, el hallazgo debe incluir evidencia indicando dónde se referencia la librería y cómo se accede a la funcionalidad que hace referencia a ella. También se debe incluir evidencia de la versión identificada resaltada en el archivo JavaScript propiamente tal. El uso de plugins de Firefox para evidenciar la versión de una librería JavaScript no es suficiente. Además, para este tipo de hallazgos no es necesario demostrar la ejecución o el impacto de las vulnerabilidades asociadas a cada librería, basta con enumerarlas de manera general y ser explícito respecto a que el impacto es potencial y no real. Por lo mismo, está bien que sean clasificados como informativos.
+
+
+Vulnerabilidades en la implementación SSL/TLS: este tipo de hallazgos tienen un carácter informativo toda vez que la explotación real requiere muchas condiciones y en la práctica se vuelve un ataque casi imposible. El propósito del hallazgo es informar al cliente que debe corregir su configuración SSL/TLS y no demostrar un ataque.
+
+
+Subida de archivos no permitidos: existen dos vulnerabilidades relacionadas con evasión de controles a la hora de subir archivos a una plataforma. Una tiene que ver con subir archivos con extensiones no permitidas, por ejemplo: el portal menciona explícitamente que las extensiones permitidas son JPG, PNG, GIF, sin embargo es posible subir archivos PDF, DOCX. La otra vulnerabilidad tiene que ver con la subida de archivos con malware, evidenciado mediante el uso del archivo de prueba EICAR (en cualquiera de sus formatos). No se deben confundir o mezclar estas dos vulnerabilidades. Si ambas son evidenciadas, entonces deben ser reportadas en hallazgos distintos. 
+
+
+Denegación de servicio: si un hallazgo reporta denegación de servicio, o potencial denegación de servicio, debe ser en base a evidencia concreta de degradación de este, por ejemplo al observar un tiempo de respuesta con un orden de magnitud mayor al tiempo de respuesta normal.
+
+
+Vulnerabilidades potenciales: las vulnerabilidades "potenciales" son aquellas que contienen la palabra “potencial” en el título y deben ser clasificadas como informativas excepto si la vulnerabilidad tiene un CVE asociado con un exploit disponible públicamente. Para esto último el hallazgo debe mencionar explícitamente la existencia de un exploit público. En este caso el puntaje CVSS debe ser acorde al impacto de la vulnerabilidad reportada, por ejemplo un CVE que permite ejecución remota de comandos (RCE) debe ser crítico. Además, no es necesario incluir evidencia de explotación en la prueba de concepto ya que ello podría generar una afectación en el servicio/servidor. Cuando no se incluya evidencia de explotación se debe mencionar la razón de aquello, por ejemplo “evitar una afectación de la disponibilidad”.
+
+
+Múltiples vulnerabilidades conocidas: cuando un hallazgo indique que existen múltiples vulnerabilidades conocidas asociadas a un software, es aceptable que este sea catalogado como informativo ya que el propósito del hallazgo es informar que el software está desactualizado.
+
+
+Archivos README: los hallazgos que reporten la presencia de archivos README deben ser catalogados como informativos, excepto si existe evidencia clara sobre exposición de información sensible, como datos  de configuración o similares. En caso que no exista exposición de información se debe recordar al pentester agregar una nota describiendo que no fue posible realizar explotación.
+
+
+Sesión de usuario: los hallazgos relacionados con el robo de sesión o incorrecta implementación de cierre de sesión de usuario deben considerar interacción del usuario como requisito de explotación (i.e. debe existir una sesión creada por un tercero al interactuar con la plataforma).
+
+
+Enumeración de usuarios: los hallazgos asociados a enumeración deben ser considerados como análisis manual (no masivo ni automatizado), excepto cuando la descripción y evidencia del hallazgo describan lo contrario.
+
+
+Sourcemap Javascript: los hallazgos que identifiquen la presencia de archivos JavaScript Source Maps siempre son informativos. En este caso se debe revisar que la narrativa descrita en el hallazgo corresponda con el puntaje informativo.
+
+
+Atributos Secure y HttpOnly (Cookies): los hallazgos que identifiquen la ausencia de estos atributos deben ser siempre informativos y pueden ser reportados en un solo hallazgo. Además, se debe demostrar que las cookies mencionadas corresponden a cookies de sesión de usuario, por ejemplo indicando el flujo que se siguió para iniciar sesión y luego examinar las cookies.

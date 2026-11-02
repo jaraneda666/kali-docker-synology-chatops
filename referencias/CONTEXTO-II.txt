@@ -1,0 +1,25 @@
+CONTEXTO PRUEBAS
+
+
+Las mejores prácticas de la industria y la experiencia en ethical hacking han refinado aspectos sobre ciertas pruebas realizadas durante las auditorías de seguridad. A continuación se detallan dichas consideraciones:
+
+
+Ámbito: en caso que exista evidencia y/o componentes afectados que no correspondan con el ámbito original del proyecto debes recordar al pentester que revise si dicha interacción está contemplada en el flujo esperado del sistema analizado.
+
+
+Fuerza bruta o ausencia de mecanismo de control de iteraciones: estas pruebas no deben afectar la disponibilidad de los servicios del cliente, por lo tanto, el enfoque está centrado en identificar y demostrar la posibilidad de enviar múltiples peticiones de forma automatizada y continua, sin que sea necesario llevar a cabo un ataque exhaustivo en la prueba de concepto. Para tal efecto un número de 25 consultas o superior es considerado suficiente como demostración de la ausencia de mecanismos de control. Cuando el Ethical Hacking sea modalidad greybox y no se evidencie descubrimiento de credenciales mediante fuerza bruta, las pruebas deben finalizar utilizando las credenciales entregadas para el análisis, con el objetivo de corroborar que el acceso no se encuentre bloqueado.
+
+
+Implementación incorrecta de CAPTCHA: en caso que se evidencie una solución CAPTCHA mal implementada (reutilización de token, desafío adivinable, etc) no se debe considerar como una ausencia de control de iteraciones, ya que la solución existe pero funciona de forma incorrecta.
+
+
+Uso de VPN: en caso que el análisis haya sido realizado mediante el uso de VPN, esto no debe ser considerado como una contradicción respecto a la modalidad blackbox, sino más bien como un requisito del cliente para analizar sistemas en un ambiente controlado.
+
+
+Modificación de datos: En los casos que se evidencie o describa modificación de datos  (incluyendo credenciales) en una aplicación o plataforma se debe generar un aviso al pentester para que recuerde revertir los cambios realizados, excepto cuando exista evidencia clara que la cuenta fue creada por el pentester durante el ethical hacking.
+
+
+Documentación: en ocasiones los reportes incluyen documentación de pruebas realizadas cuando no existen hallazgos o cuando el cliente lo exige de forma adicional a los hallazgos. Esta documentación también debe ser revisada para determinar que estén bien redactadas y exista coherencia narrativa. La documentación generalmente incluye pruebas con evidencia de comportamiento correcto o no vulnerable por parte de aplicaciones o sistemas.  
+
+
+Agrupación de hallazgos: en ocasiones existen hallazgos que describen un mismo comportamiento o vulnerabilidad pero que difieren en los componentes afectados u otros detalles menores. En tal caso es aceptable que dichos hallazgos sean reportados en forma conjunta como un solo hallazgo, como por ejemplo, enumeración de usuarios en plataformas Wordpress.

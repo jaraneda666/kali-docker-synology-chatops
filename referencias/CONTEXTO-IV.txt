@@ -1,0 +1,48 @@
+CONTEXTO REDACCIÓN Y PRUEBAS DE CONCEPTO
+
+
+
+
+Los estándares periciales han refinado aspectos sobre redacción de hallazgos y pruebas de concepto. A continuación se detallan dichas consideraciones:
+
+
+Ortografía: no deben existir errores ortográficos en ningún elemento del hallazgo.
+
+
+Completitud: no se deben revisar hallazgos que contengan las palabras TBD o TBA en cualquiera de sus elementos (título, descripción, impacto, mitigación, prueba de concepto). Tampoco se debe revisar documentación que no posea evidencia de respaldo (imágenes). En ambos casos sólo se debe alertar al pentester sobre documentación incompleta.
+
+
+Uso de herramientas: se debe incluir el nombre de herramientas especializadas utilizadas en la prueba de concepto, por ejemplo: 1) Herramientas que sí deben estar nombradas de manera explícita: nmap, Burp Suite, gobuster, shcheck, testssl, openssl, curl, plugins de Firefox, etc. 2) Herramientas que no es necesario nombrar: Firefox.
+
+
+Comandos: en caso de utilizar una herramienta mediante línea de comando, se debe incluir como texto plano el comando específico utilizado, por ejemplo: 'openssl s_client -connect dominio.com:443'. Existen algunas herramientas para las cuales no es necesario incluir el detalle específico del comando, estas son: testssl, shcheck.
+
+
+Payloads: en caso de tratarse de una vulnerabilidad de inyección, se debe incluir como texto plano el payload específico para reproducir la vulnerabilidad, por ejemplo: '1 OR 1=1--'.
+
+
+Endpoints: en caso que la prueba de concepto incluya una imagen con una petición hacia algún endpoint (por ejemplo utilizando Burp), dicho endpoint debe estar resaltado en la imagen correspondiente.
+
+
+Coherencia narrativa: la prueba de concepto debe corroborar lo descrito en la descripción, requisitos, impacto y mitigación de un hallazgo. Si existen inconsistencias se debe reformular el hallazgo para lograr coherencia entre todos los elementos del hallazgo. En caso de conflicto, si el título no se condice con el CWE asignado, o bien estos no se condicen con lo evidenciado en la prueba de concepto (PoC), tiene precedencia la prueba de concepto. Si la prueba de concepto no contiene evidencia o contiene evidencia sin descripción asociada, se debe analizar la coherencia del título, CWE y CVSS en base a la descripción general, el impacto y la mitigación sugerida.
+
+
+Reproducibilidad: la prueba de concepto debe detallar la secuencia lógica de pasos para identificar la vulnerabilidad, es decir, el hallazgo debe ser completamente reproducible a partir de la prueba de concepto. Por ejemplo, si el ámbito está definido como A y el hallazgo está reportado en un componente B, la prueba de concepto debe contener un paso a paso indicando como llegar desde A a B, incluyendo detalles tales como: ¿es necesario autenticarse, iniciar sesión? ¿Es necesario seguir un flujo de secciones a través de un menú?
+
+
+Imágenes: debes revisar las imágenes incrustadas en los documentos para verificar que correspondan con la prueba de concepto planteada. Para ello debe existir un texto antes o después de la imagen que indique a qué corresponde la evidencia. Si en base a tu análisis infieres que la imagen debe contener algún parámetro resaltado pero ello no ocurre, debes revisar nuevamente la imagen con una mayor precisión para confirmar o descartar la presencia de parámetros resaltados. 
+
+
+Notas Pentester: en caso que exista un apartado “nota pentester” no debes considerar dichos comentarios como una contradicción del hallazgo sino más bien como una explicación sobre un contexto en particular o sobre restricciones observadas durante las pruebas.
+
+
+Cabeceras de seguridad: sólo se reporta la ausencia de las siguientes cabeceras: HTTP Strict Transport Security (HSTS), Content-Security-Policy, X-Content-Type-Options. Debido al formato de salida de la herramienta utilizada para comprobar las cabeceras, es posible que la evidencia de la prueba de concepto muestre otras cabeceras, sin embargo lo importante es que las cabeceras resaltadas correspondan a las tres mencionadas anteriormente. Los campos de descripción, impacto, mitigación y pruebas de concepto deben deben coincidir en cuánto a las cabeceras reportadas. Además, cuando corresponda, los ejemplos de mitigación que incluyen nombres de dominio deben incluir un dominio reservado de ejemplo (ejemplo.com o example.com) y no el dominio del cliente.
+
+
+Retests: en ocasiones un informe puede contener hallazgos denominados internamente como “Retests”. Un retest corresponde a una actualización de un hallazgo reportado previamente en una actividad de Ethical Hacking anterior pero que aún sigue vigente. Este tipo de hallazgos puede ser identificado mediante el uso de la frase “El hallazgo persiste” o variaciones similares. En tales casos debes considerar que todos los campos del hallazgo corresponden al hallazgo original excepto la prueba de concepto la cual es una versión actualizada que busca responder a la pregunta: “¿El hallazgo persiste o ha sido mitigado?”. Debes revisar la prueba de concepto y verificar que no existan diferencias de coherencia narrativa o referencias al hallazgo original que generen inconsistencias.
+
+
+Cambios de ambiente: si un retest incluye una nota de este tipo: “Nota de Responsabilidad: A petición del cliente, el re-test actual fue realizado sobre el ambiente de PRODUCCIÓN, a diferencia del hallazgo originalmente reportado sobre QA” entonces es aceptable que el ambiente evidenciado en la prueba de concepto sea distinto al ambiente indicado en el campo componente. De todas formas, la nota de responsabilidad debe indicar explícitamente cuál es el ambiente original y cuál es el nuevo ambiente, incluyendo una URL, una dirección IP o un nombre de archivo.
+
+
+Enlaces: si un hallazgo incluye algún nombre de dominio o enlace como parámetro, ya sea como ejemplo de configuración o un payload de muestra, el uso de dominios de ejemplo reservados (como ejemplo.com o example.com) es mandatorio. Algunos ejemplos de esto son: hallazgos de cabeceras con una recomendación de ejemplo utilizando ejemplo.com; hallazgos de inyección HTML con un enlace a ejemplo.com; hallazgos de open redirect que redireccionan a ejemplo.com.
